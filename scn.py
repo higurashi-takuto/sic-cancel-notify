@@ -12,13 +12,12 @@ URL = 'http://msgsot.sic.shibaura-it.ac.jp/cancel/xxx/{}.html'.format(
     day.strftime('%Y%m%d'))
 resp = requests.get(URL)
 if resp.status_code == 200:
-	# 文字コード変更
+    # 文字コード変更
     resp.encoding = resp.apparent_encoding
     # テキスト整形
-    soup = BeautifulSoup(resp.text, 'html.parser').body.get_text(
-        '\n', strip=True)
+    soup = BeautifulSoup(
+        resp.text, 'html.parser').body.get_text('\n', strip=True)
     # LINE Notify
     payload = {'message': soup}
     headers = {'Authorization': 'Bearer ' + line_notify_token}
     requests.post(line_notify_api, data=payload, headers=headers)
-    
